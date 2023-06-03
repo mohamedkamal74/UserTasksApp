@@ -17,7 +17,7 @@ namespace UserTasks.Data
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
-
+             
             modelBuilder.Entity<Tasks>()
                 .HasIndex(p => new { p.CreatedOn, p.Status, p.PeriorityEnum, p.DueDate });
 
