@@ -12,6 +12,8 @@
 
         public async Task<Tasks> Create(Tasks tasks)
         {
+            _context.Tasks.Add(tasks);
+           await _context.SaveChangesAsync();
             return tasks;
         }
 
