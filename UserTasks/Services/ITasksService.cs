@@ -1,13 +1,14 @@
 ﻿using UserTasks.Models.Domain;
+using UserTasks.Models.ViewModels.Shared;
 
 namespace UserTasks.Services
 {
     public interface ITasksService
     {
-        Task<IEnumerable<Tasks>> GetAll();
-        Task<Tasks> GetById(int id);
-        Task<Tasks> Create(Tasks tasks);
-        Tasks Update(Tasks tasks);
-        Tasks Delete(Tasks tasks);
+        Task<ObjectSourceResponse<IEnumerable<TasksDto>>> GetAll();
+        Task<ObjectSourceResponse<TasksDto>> GetById(int id);
+        Task<ObjectSourceResponse<bool>> Create(TasksDto dto);
+        Task<ObjectSourceResponse<bool>> Update(TasksDto dto);
+        Task<ObjectSourceResponse<bool>> Delete(int id);
     }
 }

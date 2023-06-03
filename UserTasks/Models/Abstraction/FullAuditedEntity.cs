@@ -11,7 +11,7 @@ public abstract class FullAuditedEntity
 
 
     public DateTime CreatedOn { get; set; } = DateTime.Now;
-    public int CreatedBy { get; set; }
+    public int? CreatedBy { get; set; }
     [ForeignKey("CreatedBy")]
     public virtual AppUser CreatedByEmp { get; set; }
 

@@ -1,9 +1,11 @@
 ﻿using UserTasks.Models.Domain;
+using UserTasks.Models.Enums;
+using UserTasks.Models.ViewModels.Shared;
 
 namespace UserTasks.Services
 {
 
-    public class TaskService: ITasksService
+    public class TaskService : ITasksService
     {
         private readonly ApplicationDbContext _context;
 
@@ -12,35 +14,85 @@ namespace UserTasks.Services
             _context = context;
         }
 
-        public async Task<Tasks> Create(Tasks tasks)
+        public async Task<ObjectSourceResponse<bool>> Create(TasksDto dto)
         {
-            _context.Tasks.Add(tasks);
-           await _context.SaveChangesAsync();
-            return tasks;
+            try
+            {
+                Tasks tasks = new Tasks(dto.Name, dto.Description, Convert.ToDateTime(dto.CreationTime), (PeriorityEnum)dto.Periority, dto.Status);
+                _context.Tasks.Add(tasks);
+                await _context.SaveChangesAsync();
+                return new ObjectSourceResponse<bool>(true, "Task Created Successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ObjectSourceResponse<bool>(false, ex.Message);
+            }
         }
 
-        public Tasks Delete(Tasks tasks)
+        public async Task<ObjectSourceResponse<bool>> Delete(int id)
         {
+            Tasks tasks = await _context.Tasks.FirstAsync(x => x.Id == id);
+            if (tasks is null)
+                return new ObjectSourceResponse<bool>(false, "Task Not Found");
+
             _context.Tasks.Remove(tasks);
-            _context.SaveChanges();
-            return tasks;
+            await _context.SaveChangesAsync();
+            return new ObjectSourceResponse<bool>(true, "Task NRemoved Successfully");
         }
 
-        public async Task<IEnumerable<Tasks>> GetAll()
+        public async Task<ObjectSourceResponse<IEnumerable<TasksDto>>> GetAll()
         {
-            return await _context.Tasks.Include(u=>u.CreatedByEmp).OrderByDescending(m => m.DueDate).ToListAsync();
+            var result = await _context.Tasks.Include(u => u.CreatedByEmp).AsNoTracking().OrderByDescending(m => m.DueDate)
+              .Select(c => new TasksDto
+              {
+                  Date = c.DueDate,
+                  Description = c.Description,
+                  Name = c.TaskName,
+                  Periority = (int)c.PeriorityEnum,
+                  Status = c.Status,
+                  TaskId = c.Id,
+                  UserId = c.CreatedBy.Value,
+                  CreationTime = c.CreatedOn.ToString("dd-MM-yyyy")
+              }).ToListAsync();
+            return new ObjectSourceResponse<IEnumerable<TasksDto>>(result, null);
         }
 
-        public async Task<Tasks> GetById(int id)
+        public async Task<ObjectSourceResponse<TasksDto>> GetById(int id)
         {
-            return await _context.Tasks.Include(u=>u.CreatedByEmp).SingleOrDefaultAsync(m => m.Id == id);
+            var task = await _context.Tasks.Include(u => u.CreatedByEmp).AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
+            if (task is null)
+                return new ObjectSourceResponse<TasksDto>(null, "Task Not Found");
+
+            return new ObjectSourceResponse<TasksDto>(new TasksDto()
+            {
+                Date = task.DueDate,
+                Description = task.Description,
+                Name = task.TaskName,
+                Periority = (int)task.PeriorityEnum,
+                Status = task.Status,
+                TaskId = task.Id,
+                UserId = task.CreatedBy.Value,
+                CreationTime = task.CreatedOn.ToString("dd-MM-yyyy")
+            }, null);
         }
 
-        public Tasks Update(Tasks tasks)
+        public async Task<ObjectSourceResponse<bool>> Update(TasksDto dto)
         {
-            _context.Tasks.Update(tasks);
-            _context.SaveChanges();
-            return tasks;
+            try
+            {
+                Tasks tasks = await _context.Tasks.FirstAsync(x => x.Id == dto.TaskId);
+                if (tasks is null)
+                    return new ObjectSourceResponse<bool>(false, "Task Not Found");
+
+                tasks.UpdateTask(dto);
+                await _context.SaveChangesAsync();
+                return new ObjectSourceResponse<bool>(true, "Task Updated Successfully");
+
+            }
+            catch (Exception ex)
+            {
+                return new ObjectSourceResponse<bool>(false, ex.Message);
+            }
         }
     }
 }

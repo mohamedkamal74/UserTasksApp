@@ -29,4 +29,12 @@ public class Tasks : FullAuditedEntity
 
     [Required, MaxLength(4000)]
     public string Status { get; private set; }
+
+    public void UpdateTask(TasksDto tasksDto)
+    {
+        TaskName = tasksDto.Name;
+        Description = tasksDto.Description;
+        PeriorityEnum = (PeriorityEnum)tasksDto.Periority;
+        Status = tasksDto.Status;
+    }
 }
