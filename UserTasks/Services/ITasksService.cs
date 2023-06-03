@@ -1,4 +1,6 @@
-﻿namespace UserTasks.Services
+﻿using UserTasks.Models.Domain;
+
+namespace UserTasks.Services
 {
     public interface ITasksService
     {

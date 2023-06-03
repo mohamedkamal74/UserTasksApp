@@ -1,6 +1,8 @@
-﻿namespace UserTasks.Services
+﻿using UserTasks.Models.Domain;
+
+namespace UserTasks.Services
 {
-   
+
     public class TaskService: ITasksService
     {
         private readonly ApplicationDbContext _context;
@@ -24,12 +26,12 @@
 
         public async Task<IEnumerable<Tasks>> GetAll()
         {
-            return await _context.Tasks.Include(u=>u.AppUser).OrderByDescending(m => m.Date).ToListAsync();
+            return await _context.Tasks.Include(u=>u.CreatedByEmp).OrderByDescending(m => m.DueDate).ToListAsync();
         }
 
         public async Task<Tasks> GetById(int id)
         {
-            return await _context.Tasks.Include(u=>u.AppUser).SingleOrDefaultAsync(m => m.Id == id);
+            return await _context.Tasks.Include(u=>u.CreatedByEmp).SingleOrDefaultAsync(m => m.Id == id);
         }
 
         public Tasks Update(Tasks tasks)
