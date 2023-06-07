@@ -10,5 +10,8 @@
         public int UserId { get; set; }
         public int Periority { get; set; }
         public string CreationTime { get; set; }
+        public string PeriorityName { get; set; }
+        public string DueDateString { get; set; }
+
     }
 }

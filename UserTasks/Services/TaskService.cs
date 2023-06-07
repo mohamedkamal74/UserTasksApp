@@ -1,4 +1,8 @@
-﻿namespace UserTasks.Services
+﻿using UserTasks.Models.Domain;
+using UserTasks.Models.Enums;
+using UserTasks.Models.ViewModels.Shared;
+
+namespace UserTasks.Services
 {
     public class TaskService : ITasksService
     {
@@ -13,8 +17,7 @@
         {
             try
             {
-                Tasks tasks = new Tasks(dto.Name, dto.Description, Convert.ToDateTime(dto.CreationTime),
-                (PeriorityEnum)dto.Periority, dto.Status);
+                Tasks tasks = new Tasks(dto.Name, dto.Description, Convert.ToDateTime(dto.CreationTime), (PeriorityEnum)dto.Periority, dto.Status);
                 _context.Tasks.Add(tasks);
                 await _context.SaveChangesAsync();
                 return new ObjectSourceResponse<bool>(true, "Task Created Successfully");
@@ -48,7 +51,8 @@
                   Status = c.Status,
                   TaskId = c.Id,
                   UserId = c.CreatedBy.Value,
-                  CreationTime = c.CreatedOn.ToString("dd-MM-yyyy")
+                  CreationTime = c.CreatedOn.ToString("dd-MM-yyyy"),
+                  PeriorityName = c.PeriorityEnum.GetDisplayName()
               }).ToListAsync();
             return new ObjectSourceResponse<IEnumerable<TasksDto>>(result, null);
         }
@@ -68,7 +72,9 @@
                 Status = task.Status,
                 TaskId = task.Id,
                 UserId = task.CreatedBy.Value,
-                CreationTime = task.CreatedOn.ToString("dd-MM-yyyy")
+                CreationTime = task.CreatedOn.ToString("dd-MM-yyyy"),
+                DueDateString = task.DueDate.ToString("dd-MM-yyyy"),
+                PeriorityName = task.PeriorityEnum.GetDisplayName()
             }, null);
         }
 
