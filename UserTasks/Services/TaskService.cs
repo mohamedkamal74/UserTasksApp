@@ -1,10 +1,5 @@
-﻿using UserTasks.Models.Domain;
-using UserTasks.Models.Enums;
-using UserTasks.Models.ViewModels.Shared;
-
-namespace UserTasks.Services
+﻿namespace UserTasks.Services
 {
-
     public class TaskService : ITasksService
     {
         private readonly ApplicationDbContext _context;
@@ -18,7 +13,8 @@ namespace UserTasks.Services
         {
             try
             {
-                Tasks tasks = new Tasks(dto.Name, dto.Description, Convert.ToDateTime(dto.CreationTime), (PeriorityEnum)dto.Periority, dto.Status);
+                Tasks tasks = new Tasks(dto.Name, dto.Description, Convert.ToDateTime(dto.CreationTime),
+                (PeriorityEnum)dto.Periority, dto.Status);
                 _context.Tasks.Add(tasks);
                 await _context.SaveChangesAsync();
                 return new ObjectSourceResponse<bool>(true, "Task Created Successfully");
@@ -37,7 +33,7 @@ namespace UserTasks.Services
 
             _context.Tasks.Remove(tasks);
             await _context.SaveChangesAsync();
-            return new ObjectSourceResponse<bool>(true, "Task NRemoved Successfully");
+            return new ObjectSourceResponse<bool>(true, "Task Removed Successfully");
         }
 
         public async Task<ObjectSourceResponse<IEnumerable<TasksDto>>> GetAll()

@@ -1,7 +1,4 @@
-﻿using UserTasks.Models.Domain;
-using UserTasks.Models.ViewModels.Shared;
-
-namespace UserTasks.Services
+﻿namespace UserTasks.Services
 {
     public interface ITasksService
     {

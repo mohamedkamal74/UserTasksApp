@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace UserTasks.Models.Enums;
+﻿namespace UserTasks.Models.Enums;
 
 public enum PeriorityEnum
 {

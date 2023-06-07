@@ -11,6 +11,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddScoped<ITasksService, TaskService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("UserTasks",
+                      policy =>
+                      {
+                          policy
+                          .AllowAnyHeader()
+                          .AllowAnyOrigin()
+                          .AllowAnyMethod(); ;
+                      });
+});
 var app = builder.Build();
 
 
@@ -24,6 +36,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("UserTasks");
 app.UseStaticFiles();
 
 app.UseRouting();

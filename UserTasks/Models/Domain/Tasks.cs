@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UserTasks.Models.Abstraction;
+﻿using UserTasks.Models.Abstraction;
 using UserTasks.Models.Enums;
 
 namespace UserTasks.Models.Domain;
 
 public class Tasks : FullAuditedEntity
 {
-    public Tasks(string taskName, string description, DateTime dueDate, PeriorityEnum periorityEnum, string status)
+    public Tasks(string taskName, string description, DateTime dueDate,
+        PeriorityEnum periorityEnum, string status)
     {
         TaskName = taskName;
         Description = description;
