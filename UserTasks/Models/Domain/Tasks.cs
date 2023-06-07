@@ -13,6 +13,7 @@ public class Tasks : FullAuditedEntity
         DueDate = dueDate;
         PeriorityEnum = periorityEnum;
         Status = status;
+        CreatedBy = 3;
     }
 
     [Required, MaxLength(500)]

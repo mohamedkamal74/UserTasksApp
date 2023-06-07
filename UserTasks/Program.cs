@@ -13,6 +13,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<ITasksService, TaskService>();
 var app = builder.Build();
 
+app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
 
 // Configure the HTTP request pipeline.

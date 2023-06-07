@@ -30,21 +30,21 @@ namespace UserTasks.Controllers
             return Ok(task);
         }
 
-        [HttpPost("Create")]
+        [HttpPost(nameof(AddTask))]
         public async Task<IActionResult> AddTask(TasksDto dto)
         {
             var task = await _tasksService.Create(dto);
             return Ok(task);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask([FromForm] TasksDto dto)
+        [HttpPost(nameof(UpdateTask))]
+        public async Task<IActionResult> UpdateTask(TasksDto dto)
         {
             var task = await _tasksService.Update(dto);
             return Ok(task);
         }
 
-        [HttpDelete("{id}")]
+        [HttpPost("DeleteTask/{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
             var task = await _tasksService.Delete(id);
