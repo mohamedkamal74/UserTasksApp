@@ -1,5 +1,6 @@
 ﻿using UserTasks.Models.Domain;
 using UserTasks.Models.Enums;
+using UserTasks.Models.Extensions;
 using UserTasks.Models.ViewModels.Shared;
 
 namespace UserTasks.Services

@@ -1,7 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using UserTasks.Models.Enums;
-using UserTasks.Models.ViewModels.Shared;
+﻿using System.Reflection;
+
 
 namespace UserTasks.Models.Extensions;
 
@@ -15,14 +13,14 @@ public static class EnumExtensions
                        .Name;
     }
 
-    public static List<DropDownList> GetVisitTypeList()
-    {
-        return Enum.GetValues(typeof(PeriorityEnum))
-           .Cast<PeriorityEnum>()
-           .Select(t => new DropDownList
-           {
-               Id = ((int)t),
-               Name = t.GetDisplayName()
-           }).ToList();
-    }
+    //public static List<DropDownList> GetVisitTypeList()
+    //{
+    //    return Enum.GetValues(typeof(PeriorityEnum))
+    //       .Cast<PeriorityEnum>()
+    //       .Select(t => new DropDownList
+    //       {
+    //           Id = ((int)t),
+    //           Name = t.GetDisplayName()
+    //       }).ToList();
+    //}
 }
