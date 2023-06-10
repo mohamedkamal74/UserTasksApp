@@ -1,6 +1,6 @@
 ﻿namespace UserTasks.Dtos
 {
-   public class TasksDto
+  public class TasksDto
     {
         public int TaskId { get; set; }
         public string Name { get; set; } = null!;
