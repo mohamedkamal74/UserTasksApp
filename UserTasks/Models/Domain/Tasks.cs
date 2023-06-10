@@ -2,7 +2,6 @@
 using UserTasks.Models.Enums;
 
 namespace UserTasks.Models.Domain;
-
 public class Tasks : FullAuditedEntity
 {
     public Tasks(string taskName, string description, DateTime dueDate,
