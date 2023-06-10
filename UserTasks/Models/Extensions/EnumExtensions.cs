@@ -12,15 +12,4 @@ public static class EnumExtensions
                        .GetCustomAttribute<DisplayAttribute>()
                        .Name;
     }
-
-    //public static List<DropDownList> GetVisitTypeList()
-    //{
-    //    return Enum.GetValues(typeof(PeriorityEnum))
-    //       .Cast<PeriorityEnum>()
-    //       .Select(t => new DropDownList
-    //       {
-    //           Id = ((int)t),
-    //           Name = t.GetDisplayName()
-    //       }).ToList();
-    //}
 }
