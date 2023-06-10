@@ -11,7 +11,6 @@ namespace UserTasks.Models.Domain
             UserName = userName;
             Password = password;
         }
-
         public string FullName { get; private set; }
         public string Email { get; private set; }
         public string UserName { get; private set; }
